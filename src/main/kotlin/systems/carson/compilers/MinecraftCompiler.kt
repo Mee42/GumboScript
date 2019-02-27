@@ -1,6 +1,6 @@
-package compilers
+package systems.carson.compilers
 
-import GsCompiler
+import systems.carson.GsCompiler
 import java.lang.StringBuilder
 import java.util.*
 
@@ -16,6 +16,17 @@ class MinecraftCompiler : GsCompiler {
         val arr = Array(10) { Array(10) { false } }
         var pointer1 = 0
         var pointer2 = 0
+        fun get(i :Int = pointer1,ii :Int = pointer2):Boolean{
+            try{ return arr[i][ii] }catch(e :ArrayIndexOutOfBoundsException){
+                error("out of bounds on line ${currentLine+2} ")
+            }
+        }
+        fun set(i :Int = pointer1,ii :Int = pointer2,value :Boolean) {
+            try{ arr[i][ii] = value }catch(e :ArrayIndexOutOfBoundsException){
+                error("out of bounds on line ${currentLine+2}")
+            }
+        }
+
         while(true){
             val line = lines[currentLine]
             if(!line.isBlank()) {
@@ -26,13 +37,13 @@ class MinecraftCompiler : GsCompiler {
                     forward = true
                 } else if (!fi && forward) {
                     when (line) {
-                        "left" -> pointer1--
-                        "right" -> pointer1++
-                        "up" -> pointer2--
-                        "down" -> pointer2++
-                        "on" -> arr[pointer1][pointer2] = true
-                        "off" -> arr[pointer1][pointer2] = false
-                        "toggle" -> arr[pointer1][pointer2] = !arr[pointer1][pointer2]
+                        "up" -> pointer1--
+                        "down" -> pointer1++
+                        "left" -> pointer2--
+                        "right" -> pointer2++
+                        "on" -> set(value = true)
+                        "off" -> set(value = false)
+                        "toggle" -> set(value = get())
                         "home" -> {
                             pointer1 = 0
                             pointer2 = 0
@@ -49,15 +60,15 @@ class MinecraftCompiler : GsCompiler {
                             println(s)
                         }
                         "exit" -> return 0
-                        "read" -> cache = arr[pointer1][pointer2]
-                        "inbounds" -> cache = 0 <= pointer1 &&
+                        "read" -> cache = get()
+                        "inbounds" -> cache = pointer1 in 0 until 10 && pointer2 in 0 until 10
                         "if" -> {
                             if (!cache) {
                                 fi = true
                             }
                         }
                         "stoploop" -> {
-                            if(!cache){
+                            if(cache){
                                 forward = false
                             }
                         }
@@ -74,5 +85,6 @@ class MinecraftCompiler : GsCompiler {
             else
                 currentLine += if(forward) 1 else -1
         }
+
     }
 }

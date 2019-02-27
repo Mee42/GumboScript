@@ -1,5 +1,6 @@
-package compilers.secondCompiler
-import GsCompiler
+package systems.carson.compilers.secondCompiler
+
+import systems.carson.GsCompiler
 import java.lang.IndexOutOfBoundsException
 import java.util.*
 

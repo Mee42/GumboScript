@@ -1,6 +1,6 @@
-package compilers
+package systems.carson.compilers
 
-import GsCompiler
+import systems.carson.GsCompiler
 import java.util.*
 import java.util.regex.Pattern
 

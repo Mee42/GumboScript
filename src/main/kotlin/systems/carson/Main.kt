@@ -1,11 +1,20 @@
-import java.io.File
-import compilers.*
-import compilers.secondCompiler.SecondCompiler
+package systems.carson
 
-val sourceCode = File("res/mc.gs")
+import java.io.File
+import systems.carson.compilers.FirstCompiler
+import systems.carson.compilers.MinecraftCompiler
+import systems.carson.compilers.secondCompiler.SecondCompiler
+
 val compilers = listOf({ FirstCompiler() },{ SecondCompiler() }, { MinecraftCompiler() })
 
-fun main() {
+fun main(args :Array<String>) {
+    if(args.isEmpty()){
+        System.err.println("You need to have an file specified")
+        System.exit(1)
+    }
+    val sourceCode = File(args[0])
+
+
     val input = sourceCode.readLines().toMutableList()
     val conf = mutableMapOf<String, MutableList<String>>()
     var i = -1//start a 0
