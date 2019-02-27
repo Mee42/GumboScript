@@ -1,3 +1,5 @@
+#compiler 0.0.1
+
 pgoto a;
 pgoto b;
 
