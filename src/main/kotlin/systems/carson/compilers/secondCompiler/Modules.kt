@@ -21,13 +21,13 @@ abstract class HelperModule(private val compiler: SecondCompiler, name :String):
 
     fun pop():Int{
         if(compiler.stack.empty()){
-            error("Can not pop empty stack")
+            error("Can not pop empty stack ${compiler.lineInfo}")
         }
         return compiler.stack.pop()
     }
     fun peek():Int{
         if(compiler.stack.empty()){
-            error("Can not peek empty stack")
+            error("Can not peek empty stack ${compiler.lineInfo}")
         }
         return compiler.stack.peek()
     }
@@ -42,5 +42,12 @@ abstract class HelperModule(private val compiler: SecondCompiler, name :String):
             error("Unable to parse int $s")
         }
     }
+    fun boolToInt(s :Boolean):Int = if(s) 0 else 1
+    fun intToBool(i :Int):Boolean = i == 0
+
+    fun popBool():Boolean = intToBool(pop())
+    fun peekBool():Boolean = intToBool(peek())
+
+
 }
 
