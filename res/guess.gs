@@ -1,14 +1,14 @@
 #compiler 0.1.0
 #include math
 #include extra
+#include io
 
-
-print Guess a number between 1 and 10
+print Guess a number between 1 and 100
 print Don't tell me
 
 push 1
 var::popvar left
-push 10
+push 100
 var::popvar right
 
 push 0
@@ -22,14 +22,14 @@ startloop main
     dupl
     var::popvar mid
 
-    print is your number :POP (yes:0, no:1)?
-    input
+    print is your number :POP (yes:true, no:false)?
+    inputbool
     if
         print I guessed it!
         exit
     fi
-    print is your number higher or lower (higher:0, lower 1)?
-    input
+    print is your number higher or lower (higher:true, lower:false)?
+    inputbool
     dupl
     if
       var::pushvar mid
@@ -45,12 +45,19 @@ startloop main
       var::popvar right
     fi
 
+    var::pushvar right
+    var::pushvar left
+    math::equalto
+    if
+        var::pushvar right
+        print It's :POP
+        exit
+    fi
+
 
     push :SIZE
-    flip
-    if
-        print size is not zero
-        debug::stack
-    fi
+    debug::asserttrue 0
+    pop
+
     push 0
 stoploop main

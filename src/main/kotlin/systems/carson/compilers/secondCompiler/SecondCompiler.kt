@@ -13,7 +13,8 @@ class SecondCompiler : GsCompiler {
         BaseExtraModule(this),
         MathModule(this),
         DebugModule(this),
-        VariableModule(this))
+        VariableModule(this),
+        IOModule(this))
     private val globalModules = mutableListOf("base")
 
     private val commands :List<Command>

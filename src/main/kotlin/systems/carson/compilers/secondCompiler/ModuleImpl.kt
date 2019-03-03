@@ -6,7 +6,6 @@ import java.util.*
 class BaseModule(private val compiler: SecondCompiler) :HelperModule(compiler,"base"){
 
     override fun init(commands: MutableMap<String, (String) -> Unit>): MutableMap<String, (String) -> Unit> {
-        commands["print"] = { println(it) }
         commands["wait"] = {
             if (it.isBlank()) {
                 Thread.sleep(1000)
@@ -18,10 +17,26 @@ class BaseModule(private val compiler: SecondCompiler) :HelperModule(compiler,"b
             val number = int(it)
             push(number)
         }
+
+        return commands
+    }
+
+}
+
+class IOModule(compiler: SecondCompiler) :HelperModule(compiler,"io"){
+
+    override fun init(commands: MutableMap<String, (String) -> Unit>): MutableMap<String, (String) -> Unit> {
+        commands["print"] = { println(it) }
+
         commands["input"] = {
             val number = Scanner(System.`in`).nextLine()
             push(int(number))
         }
+        commands["inputbool"] = {
+            val number = Scanner(System.`in`).nextLine()
+            push(boolToInt(number == "true"))
+        }
+
 
         return commands
     }
