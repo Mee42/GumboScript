@@ -157,6 +157,16 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
                     //text = "as"
                     //yay
                 }
+                s[on] == '"' -> {
+                    popCache()
+                    val end = s.indexOf("\"",on + 1)
+                    if(end == -1) error("Unable to find closing \" $compileLineInfo")
+//                    println("s.substring($on + 1, $end)")
+                    val content = s.substring(on + 1,end)
+                    val exp = Expression.forValue(content)
+                    list.add(Segment(xexpression = exp))
+                    on = end + 1
+                }
                 //positive numbers
                 //for negative numbers, use (0 - 1)
                 "0123456789".contains(s[on]) -> {
@@ -301,7 +311,19 @@ enum class Matchers(vararg val conditionals: Conditional){
                         segments[2].expression.get().value as Int
             ) }
         }
+    },
+
+    STRING_CONCAT(TypeConditional("string"),
+    StringEqualConditional("+"),
+    TypeConditional("string")) {
+        override fun process(segments: List<Segment>): Expression {
+            return Expression(Type("string")) { Value(
+                segments[0].expression.get().value as String +
+                        segments[2].expression.get().value as String
+            ) }
+        }
     };
+
 
 
     abstract fun process(segments :List<Segment>):Expression
