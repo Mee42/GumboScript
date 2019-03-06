@@ -4,8 +4,11 @@ import java.io.File
 import systems.carson.compilers.FirstCompiler
 import systems.carson.compilers.MinecraftCompiler
 import systems.carson.compilers.secondCompiler.SecondCompiler
+import systems.carson.compilers.thirdCompiler.ThirdCompiler
 
-val compilers = listOf({ FirstCompiler() },{ SecondCompiler() }, { MinecraftCompiler() })
+val compilers = listOf({ FirstCompiler() },{ SecondCompiler() }, { MinecraftCompiler() }, { ThirdCompiler() })
+
+const val printStackTrace = true
 
 fun main(args :Array<String>) {
     if(args.isEmpty()){
@@ -44,9 +47,14 @@ fun main(args :Array<String>) {
         System.exit(1)
     }
     try {
-        compiler!!.run(input.fold(StringBuilder()) { a, b -> a.append(b).append('\n') }.toString(), conf)
+        val exit = compiler!!.run(input.fold(StringBuilder()) { a, b -> a.append(b).append('\n') }.toString(), conf)
+        System.exit(exit)
     }catch(e :IllegalStateException){
         System.out.flush()
         System.err.println(e.message)
+        if(printStackTrace){
+            System.err.println("\n\n")
+            e.printStackTrace()
+        }
     }
 }
