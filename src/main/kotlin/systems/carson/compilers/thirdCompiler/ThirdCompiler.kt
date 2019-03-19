@@ -1,6 +1,5 @@
 package systems.carson.compilers.thirdCompiler
 
-import com.google.gson.GsonBuilder
 import systems.carson.GsCompiler
 import java.util.regex.Pattern
 
@@ -20,6 +19,8 @@ class ThirdCompiler :GsCompiler{
 
 interface RuntimeInterface{
     fun getVariable(name :String) :Variable?
+    fun getArray(name :String) :ArrayImpl?
+    fun getStackTrace(): String
 }
 
 
@@ -35,6 +36,8 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
 
     class DefaultInterface :RuntimeInterface{
         override fun getVariable(name: String) = error("Making call to runtimeInterface before runtime has started")
+        override fun getArray(name: String) = error("Making call to runtimeInterface before runtime has started")
+        override fun getStackTrace() = error("Making call to runtimeInterface before runtime has started")
     }
 
 
@@ -42,20 +45,69 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
 
     //data
     private val variables :MutableMap<String,Type> = mutableMapOf()
+    private val arrays :MutableMap<String,Type> = mutableMapOf()
+
     private var compileLineInfo :String = "error"
 
     fun compile() :CompiledProgram{
 
-        lines = input.split("\n").map { it.trim() }.mapIndexed { index, s ->
-            compileLineInfo = "on line ${index + conf.size} ($s)"
-            val statement = when{
-                s.isBlank() -> BlankStatement()
+        val gotos = mutableListOf<String>()
 
+        lines = input.split("\n").map { it.trim() }.mapIndexed { index, s ->
+            compileLineInfo = "on line ${index + conf.size + 1} ($s)"
+            val statement:Statement = when{
+                s.isBlank() -> BlankStatement()
+                s.startsWith("//") -> BlankStatement()
                 s == "print" -> PrintStatement()
 
                 s.startsWith("print") -> {
                     PrintStatement(compileTotalExpression(s.replaceFirst("print","").trim()))
                 }
+
+                s.startsWith("varr") -> {
+                    //varr name type
+                    // 0    1    2
+                    val split = s.split(Pattern.compile("""[\s]+"""),3)
+                    val name = split[1]
+                    val type = Type(split[2])
+                    if(arrays[name] != null){
+                        error("Array $name already defined")
+                    }
+                    arrays[name] = type
+                    ArrayAssigmentStatement(name,type)
+                }
+                s.startsWith("::[") -> {
+                    //set expression
+                    //::[name:index] equals [Expression]
+                    //01234567          1        2
+                    if(!s.contains("equals"))error("array value assignment expression doesn't contain \"equals\" $compileLineInfo")
+                    val totalName = s.substring(0,s.indexOf(" equals"))
+                    var end = 3
+                    var nested = 0
+                    var running = true
+                    while(running) {
+                        when{
+                            end >= totalName.length -> error("Reached the end of \"$totalName\" while looking for a ']' $compileLineInfo")
+                            totalName[end] == ']' && nested == 0 -> running = false
+                            totalName[end] == ']' -> nested--
+                            totalName[end] == '[' -> nested++
+                        }
+                        if(running) end++
+                    }
+                    val nameTwo = totalName.substring(3,end)
+                    val realName = nameTwo.split(regex = Pattern.quote(":").toRegex(),limit = 2)[0]
+                    if(arrays[realName] == null) error("Can't find array \"$realName\"")
+                    val indexx = compileTotalExpression(nameTwo.split(regex = Pattern.quote(":").toRegex(),limit = 2)[1])
+                    if(indexx.type != Type("int")){
+                        error("Type of index is not int; $compileLineInfo")
+                    }
+                    val exp = compileTotalExpression(s.substring(s.indexOf("equals") + "equals".length))
+                    if(exp.type != arrays[realName]!!){
+                        error("Attempting to set value of type ${exp.type} on array of type ${arrays[realName]}")
+                    }
+                    ArraySetValueStatement(realName,indexx,exp)
+                }
+
 
                 s.startsWith("var") -> {
                     //var name equals [Expression]
@@ -76,6 +128,33 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
                 }
 
 
+
+                s.startsWith("goto") -> {
+                    //goto name [Expression]
+                    // 0     1    2
+                    val split = s.split(Pattern.compile("""[\s]+"""),3)
+                    val name = split[1]
+                    val expression = compileTotalExpression(split[2])
+                    if(expression.type != Type("boolean"))
+                        error("Goto expression not of type boolean $compileLineInfo")
+                    GotoStatement(name,expression)
+                }
+                s.startsWith("setgoto") -> {
+                    //setgoto name
+                    // 0       1
+                    val split = s.split(Pattern.compile("""[\s]+"""),2)
+                    val name = split[1]
+                    gotos.add(name)
+                    GotoSetStatement(name)
+                }
+
+                s.startsWith("exit") -> {
+                    //exit [Expression]
+                    val split = s.split(Pattern.compile("""[\s]+"""),2)
+                    val expression = compileTotalExpression(split[1])
+                    ExitStatement(expression)
+                }
+
                 pattern.matcher(s).find() -> {
                     //name equals [Expression]
                     //  0    1       2
@@ -92,7 +171,7 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
             }
             Line(s,index + conf.size, statement)
         }
-        val program = CompiledProgram(lines)
+        val program = CompiledProgram(lines,gotos)
         inter = program.inter
         println("     ----  compiled  ----    ")
         return program
@@ -124,6 +203,7 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
 
     /** string -> List<Segment> */
     private fun compileString(s :String): List<Segment> {
+//        println("compiling: $s")
         val list = mutableListOf<Segment>()
         var cache = ""
         var on = 0
@@ -131,13 +211,37 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
             if(cache.isNotBlank()){
 //                println("Adding $cache to the list")
                 "".trim()
-                list.add(Segment(xstring = cache.trim()))
+                cache.trim().split(Pattern.compile("""[\s]+"""))
+                    .map { it.trim() }
+                    .forEach { list.add(Segment(xstring = it)) }
                 cache = ""
             }
         }
         while(on < s.length){
             //if it be the number
             when {
+                s[on] == 't' &&
+                        on + 3 < s.length &&
+                        s[on + 1] == 'r' &&
+                        s[on + 2] == 'u' &&
+                        s[on + 3] == 'e' -> {
+                    popCache()
+                    val exp = Expression(type = Type("boolean")) { Value(type = Type("boolean"),value = true) }
+                    list.add(Segment(xexpression = exp))
+                    on += 5
+                }
+                s[on] == 'f' &&
+                        on + 4 < s.length &&
+                        s[on + 1] == 'a' &&
+                        s[on + 2] == 'l' &&
+                        s[on + 3] == 's' &&
+                        s[on + 4] == 'e'-> {
+                    popCache()
+                    val exp = Expression(type = Type("boolean")) { Value(type = Type("boolean"),value = false) }
+                    list.add(Segment(xexpression = exp))
+                    on += 6
+                }
+
                 s[on] == ':' &&
                         on + 1 < s.length &&
                         s[on + 1] == '[' -> {
@@ -146,7 +250,7 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
                     val end = s.indexOf(']',on)
                     if(end == -1)error("Unable to find closing [ of :[ $compileLineInfo")
                     val name = s.substring(on + 2,end)
-                    val type = variables[name] ?: error("Unknown variable $name")
+                    val type = variables[name] ?: error("Unknown variable $name $compileLineInfo")
                     val exp = Expression(type = type) { (inter.getVariable(name) ?: error("Couldn't find variable $name")).value }
                     list.add(Segment(xexpression = exp))
                     on = end + 1
@@ -156,6 +260,44 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
                     //off = 6
                     //text = "as"
                     //yay
+                }
+                s[on] == ':' &&
+                        on + 2 < s.length &&
+                        s[on + 1] == ':' &&
+                        s[on + 2] == '[' -> {
+                    popCache()
+                    var end = on + 3
+                    var nested = 0
+                    while(true){
+                        if(end >= s.length)
+                            error("Reached end of expression while looking for ending ) $compileLineInfo")
+                        if(s[end] == ']'){
+                            if(nested == 0){
+                                break
+                            }
+                            nested--
+                        }
+                        if(s[end] == '['){
+                            nested++
+                        }
+                        end++
+                    }
+                    if(end >= s.length)error("Unable to find closing [ of ::[ $compileLineInfo")
+                    val internal = s.substring(on + 3,end)
+                    val split = internal.split(delimiters = *arrayOf(":"),ignoreCase = false,limit = 2)
+                    val name = split[0]
+                    val index = compileTotalExpression(split[1])
+                    val type = arrays[name] ?: error("Unknown array name $name")
+                    val exp = Expression(type = type) {
+                        val va = (inter.getArray(name) ?: error("Couldn't find array $name"))
+                        try {
+                            va.value[index.get().value as Int]
+                        }catch(e :ArrayIndexOutOfBoundsException){
+                            error("Index out of bound call ${inter.getStackTrace()}")
+                        }
+                    }
+                    list.add(Segment(xexpression = exp))
+                    on = end + 1
                 }
                 s[on] == '"' -> {
                     popCache()
@@ -174,8 +316,8 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
                     var onn = on
                     //while the next one isn't a number. Note: consecutive integers work with this :thonk:
 
-                    while (onn + 1 < s.length && !"0123456789".contains(s[onn])) onn++
-                    onn++
+                    while (onn < s.length && "0123456789".contains(s[onn])) onn++
+//                    onn--
                     val int = s.substring(on, onn).toInt()
                     on = onn
 //                    println("adding int $int to the list")
@@ -202,6 +344,8 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
                         builder.append(s[end])
                         end++
                     }
+                    list.add(Segment(xexpression = compileTotalExpression(builder.toString())))
+                    on = end + 1
 
                 }
                 else -> cache += s[on++]
@@ -224,7 +368,7 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
 
     /** List<Segment> -> List<Segment> */
     private fun compileToShorter(segments :List<Segment>):List<Segment> {
-//        println("Running segments $segments")
+        println("Running segments $segments")
         if(segments.isEmpty() || segments.size == 1) return segments
 
         for(matcher in Matchers.values()) {
@@ -268,67 +412,6 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
 
 }
 
-fun main() {
-    for (i in 0..10){
-        if(i % 2 == 0)
-            continue
-    }
-}
-
-
-
-enum class Matchers(vararg val conditionals: Conditional){
-    MULTIPLICATION(TypeConditional("int"),
-                    StringEqualConditional("*"),
-                    TypeConditional("int")) {
-        override fun process(segments: List<Segment>): Expression {
-            return Expression(Type("int")) {
-                Value(
-                        segments[0].expression.get().value as Int *
-                              segments[2].expression.get().value as Int
-                )
-            }
-        }
-    },
-
-    SUBTRACTION(TypeConditional("int"),
-        StringEqualConditional("-"),
-        TypeConditional("int")) {
-        override fun process(segments: List<Segment>): Expression {
-            return Expression(Type("int")) { Value(
-                segments[0].expression.get().value as Int -
-                        segments[2].expression.get().value as Int
-            ) }
-        }
-    },
-
-    ADDITION(TypeConditional("int"),
-                 StringEqualConditional("+"),
-                 TypeConditional("int")) {
-        override fun process(segments: List<Segment>): Expression {
-            return Expression(Type("int")) { Value(
-                segments[0].expression.get().value as Int +
-                        segments[2].expression.get().value as Int
-            ) }
-        }
-    },
-
-    STRING_CONCAT(TypeConditional("string"),
-    StringEqualConditional("+"),
-    TypeConditional("string")) {
-        override fun process(segments: List<Segment>): Expression {
-            return Expression(Type("string")) { Value(
-                segments[0].expression.get().value as String +
-                        segments[2].expression.get().value as String
-            ) }
-        }
-    };
-
-
-
-    abstract fun process(segments :List<Segment>):Expression
-
-}
 
 class Segment(private var xstring :String? = null,private val xexpression :Expression? = null){
     val string :String
