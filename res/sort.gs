@@ -28,8 +28,7 @@ var tmpA equals false
 
 setgoto loop1
     nA equals :[nA] + 1
-    tmpA equals ::[arr:(:[nA])]
-    goto loop1 !(:[tmpA])
+    goto loop1 !::[arr:(:[nA])]
 //    print "Asserting "  + :[nA] + " as true"
 
 
@@ -56,3 +55,11 @@ goto print :[cur] < :[max]
 
 
 exit 0
+
+
+:[name]
+::[name:index]
+
+var x = 54
+varr array int
+::[array:(:[x])] equals :[x] * 5

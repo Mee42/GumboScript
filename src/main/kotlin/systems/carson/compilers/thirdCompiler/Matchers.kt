@@ -207,7 +207,6 @@ enum class Matchers(vararg val conditionals: Conditional){
         }
     },
 
-
     ;
 
     abstract fun process(segments :List<Segment>): Expression
