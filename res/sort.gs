@@ -53,5 +53,4 @@ setgoto print
     cur equals :[cur] + 1
 goto print :[cur] < :[max]
 
-
 exit 0
