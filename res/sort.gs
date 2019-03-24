@@ -55,11 +55,3 @@ goto print :[cur] < :[max]
 
 
 exit 0
-
-
-:[name]
-::[name:index]
-
-var x = 54
-varr array int
-::[array:(:[x])] equals :[x] * 5

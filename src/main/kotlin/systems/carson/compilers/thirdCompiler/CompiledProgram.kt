@@ -73,8 +73,8 @@ class CompiledProgram(private val lines :List<Line>,gotos :List<String>){
                 is ArraySetValueStatement -> {
                     val value = arrays[statement.name]!!.value
                     val index = statement.index.get().value as Int
-                    while(index > value.size) value.add(Value(Any(),Type("int"),false))
-                    value.add(index,statement.value.get())
+                    while(index > value.size) value.add(Value(Any(),Type("void"),false))
+                    value[index] = statement.value.get()
                 }
             }
             line++

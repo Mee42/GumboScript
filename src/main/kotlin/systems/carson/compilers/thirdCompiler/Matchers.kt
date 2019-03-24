@@ -196,8 +196,7 @@ enum class Matchers(vararg val conditionals: Conditional){
     GREATER_THEN(
         TypeConditional("int"),
         StringEqualConditional(">"),
-        TypeConditional("int")
-    ){
+        TypeConditional("int")){
         override fun process(segments: List<Segment>): Expression {
             return Expression(Type("boolean")) {
                 val one = segments[0].expression.get().value as Int
@@ -206,7 +205,6 @@ enum class Matchers(vararg val conditionals: Conditional){
             }
         }
     },
-
     ;
 
     abstract fun process(segments :List<Segment>): Expression
