@@ -4,7 +4,7 @@
 varr arr boolean
 
 //this sets everything to true
-var max equals 100
+var max equals 1000
 var current equals 0
 
 setgoto start1

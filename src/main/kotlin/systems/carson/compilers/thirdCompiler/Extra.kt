@@ -57,7 +57,7 @@ open class Expression(val type :Type,private val getter :() -> Value) {
     fun get(): Value{
         val v = getter()
         if(!v.verify(type = type)){
-            error("Expression called with conflicting types, ${v.type} and $type.  Value:${v.value}")
+            error("Expression called with conflicting types, expected $type but got ${v.type}}")
         }
         return v
     }
