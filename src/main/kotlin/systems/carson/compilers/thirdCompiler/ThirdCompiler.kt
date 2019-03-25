@@ -210,7 +210,7 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
         fun popCache(){
             if(cache.isNotBlank()){
 //                println("Adding $cache to the list")
-                "".trim()
+//                "".trim()
                 cache.trim().split(Pattern.compile("""[\s]+"""))
                     .map { it.trim() }
                     .forEach { list.add(Segment(xstring = it)) }
@@ -218,7 +218,7 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
             }
         }
         while(on < s.length){
-            //if it be the number
+            //if it be the line
             when {
                 s[on] == 't' &&
                         on + 3 < s.length &&
@@ -314,7 +314,7 @@ public class Compiler(private val input :String, private val conf :Map<String,Li
                 "0123456789".contains(s[on]) -> {
                     popCache()
                     var onn = on
-                    //while the next one isn't a number. Note: consecutive integers work with this :thonk:
+                    //while the next one isn't a line. Note: consecutive integers work with this :thonk:
 
                     while (onn < s.length && "0123456789".contains(s[onn])) onn++
 //                    onn--

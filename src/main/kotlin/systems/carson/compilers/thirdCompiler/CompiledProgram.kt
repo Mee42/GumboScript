@@ -45,7 +45,7 @@ class CompiledProgram(private val lines :List<Line>,gotos :List<String>){
                         val newVariable = Variable(name = name,value = statement.expression.get())
                         vars[name] = newVariable
                     }else{
-                        error("Variable $name has already been declared")
+                        error("Variable $name has already been declared. On line $line")
                     }
                 }
                 is VariableReassignStatement -> {
