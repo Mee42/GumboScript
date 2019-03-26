@@ -8,8 +8,6 @@ about Gumbscript.
 
 Checkout the [FAQ](/GumboScript/faq), the [installation tutorial](/GumboScript/install), and the generic [tutorial](/GumboScript/tutorial)
 
-
-
 ```
 var string equals "Hello World!"
 print string
