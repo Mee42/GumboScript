@@ -12,4 +12,4 @@ Luckily, this isn't a hard process.
 There can be two places to download the Gumboscript compiler. 
 The first is by downloading from source.
 
-Download this file: 
+Download this file: [install.bat](https://github.com/Mee42/GumboScript/raw/master/install.bat)
