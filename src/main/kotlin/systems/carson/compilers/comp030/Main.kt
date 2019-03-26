@@ -1,15 +1,16 @@
 package systems.carson.compilers.comp030
 
 import picocli.CommandLine
-import picocli.CommandLine.*
+import picocli.CommandLine.Command
+import picocli.CommandLine.Option
 import systems.carson.Logger
 import systems.carson.Parser
 import java.io.File
-import java.lang.IllegalStateException
 
 
 fun main(args: Array<String>) {
     CommandLine.run(Main(),*args)
+//    CommandLine.run(Main(),*"-vcf ./res/newest.gs".split(" ").toTypedArray())
 }
 
 @Command(name = "gumbo",
@@ -24,12 +25,9 @@ class Main :Runnable {
     var file : File? = null
 
     @Option(names = ["-c","--compile"],
-        description = ["Compiles the given file into a .gsc file"])
+        description = ["Compile the file, but do not run"])
     var compile :Boolean = false
 
-    @Option(names = ["-r","--run"],
-        description = ["Runs a given .gsc file"])
-    var run :Boolean = false
 
     @Option(names = ["-g","--gumbo"],
         description = ["Compiles file into memory and runs it."])
@@ -63,22 +61,18 @@ class Main :Runnable {
             if(gumboIsSpecified)
                 gumbo = true
             Logger.verbose("actualGumbo = $gumbo")
-            if((run || compile) && !gumboIsSpecified) {
+            if(compile && !gumboIsSpecified) {
                 Logger.verbose("Setting gumbo to false")
                 gumbo = false
             }
 
-            if(run && compile)
-                error("You can not run and compile the same file")
-
-            if((run && gumbo) ||(compile && gumbo))
-                error("Can not ${if(run)"run" else "compile"} program and compile/run in memory at the same time")
+            if(compile && gumbo)
+                error("Can not compile program and compile/run in memory at the same time")
 
             if(file == null)
                 error("No file specified")
             val code = when {
                 gumbo -> gumbo()
-                run -> runCompiledFile()
                 compile -> compile()
                 else -> error("none of the operations (compile/run/gumbo) are specified")
             }
@@ -92,12 +86,12 @@ class Main :Runnable {
             System.exit(-1)
         }
     }
-    private fun compile() :Int{
-        error("Gumboscript currently does not support compiling")//TODO
-    }
 
-    private fun runCompiledFile(): Int {
-        error("Gumboscript currently does not support running from a compiled file")//TODO
+    private fun compile() :Int{
+        val pair = Parser.initalParse(file!!)
+        val program = Compiler030().compile(pair.first.fold("") { a, b -> a + "\n" + b }, pair.second)
+        if(printCompiled) println("\n   ---  structure  ---    \n\n" + program.main.toString() + "\n   ---  compiled  ---    ")
+        return 0
     }
 
 
