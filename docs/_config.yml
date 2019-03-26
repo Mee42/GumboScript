@@ -17,7 +17,7 @@ title: Gumboscript
 email: carson42g@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
    A page for info on gumboscript
-# baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/GumboScript" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  mee42
 repository: "mee42/gumboscript"
