@@ -124,3 +124,6 @@ ignored)
 
 # End of https://www.gitignore.io/api/java,gradle,intellij
 
+_site
+.sass-cache
+.jekyll-metadata
