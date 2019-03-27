@@ -1,2 +1,2 @@
-*This file is currently not completed*
-*Please do not run*
+This file is currently incomplete
+Please do not run
