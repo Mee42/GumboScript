@@ -24,20 +24,7 @@ enum class Matchers(vararg val args :Evaluator) {
         }
     },
 
-    PLUS(TypeEvaluator("int"),StringEvaluator("+"),TypeEvaluator("int")){
-        override fun process(segments: List<Segment>): Expression {
-            return Expression(Type("int")) { Value(
-                segments[0].expression.get().value as Int + segments[2].expression.get().value as Int
-            ) }
-        }
-    },
-    MINUS(TypeEvaluator("int"),StringEvaluator("-"),TypeEvaluator("int")){
-        override fun process(segments: List<Segment>): Expression {
-            return Expression(Type("int")) { Value(
-                segments[0].expression.get().value as Int - segments[2].expression.get().value as Int
-            ) }
-        }
-    },
+
     NEGATIVE(StringEvaluator("-"),TypeEvaluator("int")){
         override fun process(segments: List<Segment>): Expression {
             return Expression(Type("int")) { Value(
@@ -46,6 +33,15 @@ enum class Matchers(vararg val args :Evaluator) {
         }
     },
 
+
+
+    MOD(TypeEvaluator("int"),StringEvaluator("%"),TypeEvaluator("int")){
+        override fun process(segments: List<Segment>): Expression {
+            return Expression(Type("int")) { Value(
+                segments[0].expression.get().value as Int % segments[2].expression.get().value as Int
+            ) }
+        }
+    },
     MULT(TypeEvaluator("int"),StringEvaluator("*"),TypeEvaluator("int")){
         override fun process(segments: List<Segment>): Expression {
             return Expression(Type("int")) { Value(
@@ -62,14 +58,21 @@ enum class Matchers(vararg val args :Evaluator) {
         }
     },
 
-    MOD(TypeEvaluator("int"),StringEvaluator("%"),TypeEvaluator("int")){
+
+    PLUS(TypeEvaluator("int"),StringEvaluator("+"),TypeEvaluator("int")){
         override fun process(segments: List<Segment>): Expression {
             return Expression(Type("int")) { Value(
-                segments[0].expression.get().value as Int % segments[2].expression.get().value as Int
+                segments[0].expression.get().value as Int + segments[2].expression.get().value as Int
             ) }
         }
     },
-
+    MINUS(TypeEvaluator("int"),StringEvaluator("-"),TypeEvaluator("int")){
+        override fun process(segments: List<Segment>): Expression {
+            return Expression(Type("int")) { Value(
+                segments[0].expression.get().value as Int - segments[2].expression.get().value as Int
+            ) }
+        }
+    },
 
     AND(TypeEvaluator("boolean"),StringEvaluator("&&"),TypeEvaluator("boolean")){
         override fun process(segments: List<Segment>): Expression {
@@ -208,4 +211,10 @@ enum class Matchers(vararg val args :Evaluator) {
         return true
     }
 
+}
+
+fun main() {
+    for (value in Matchers.values()) {
+        println(value)
+    }
 }

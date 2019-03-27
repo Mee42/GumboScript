@@ -44,8 +44,7 @@ Your current directory is shown on the left side of the terminal
 
 ```
 C:\Windows\Users\username>
-\-----------------------/
-    /\-- Here
+\----     here      ----/
 ```
 You can change this with the `cd` command:
 ```
