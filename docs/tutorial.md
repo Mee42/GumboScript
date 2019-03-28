@@ -219,26 +219,42 @@ var x equals 5 + 5 * 10
 ```
 will execute `5 * 10` and then add `5`
 
-The order of preference is this. Types are represented in parentheses, `(int)` means a value (or expression) of type int
-- Not      `!(boolean`
-- Negate   `-int`
-MOD
-MULT
-DIV
-PLUS
-MINUS
-AND
-OR
-STRING_CONCAT0
-STRING_CONCAT1
-STRING_CONCAT2
-EQUALS0
-EQUALS1
-EQUALS2
-NOT_EQUALS0
-NOT_EQUALS1
-NOT_EQUALS2
-LESS_THEN
-LESS_THEN_EQUAL_TOO
-GREATER_THEN
-GREATER_THEN_EQUAL_TOO
+The order of preference is this. Types are represented in parentheses, `[int]` means a value (or expression) of type int
+- Not            `! [boolean]`
+- MoD            `[int] % [int]`
+- Multiplication `[int] * [int]`
+- Division       `[int] / [int]`
+- Addition       `[int] + [int]`
+- Subtraction    `[int] - [int]`
+- And            `[boolean] && [boolean]`
+- Or             `[boolean] || [boolean]`
+- String concatenation
+  - `[string] + [string]`
+  - `[string] + [int]`
+  - `[string] + [boolean]`
+- Equals
+  - `[string] == [string]`
+  - `[int] == [int]`
+  - `[boolean] == [boolean]`
+- Not Equals
+  - `[string] != [string]`
+  - `[int] != [int]`
+  - `[boolean] != [boolean]`
+- Comparisons
+  - Less then  `[int] < [int]`
+  - Less then or equal to  `[int] <= [int]`
+  - Greater then  `[int] > [int]`
+  - Less then or equal too`[int] >= [int]`
+
+You should know that this is a strict ordering.
+Addition will happen before subtraction, especially in cases like `1 - 2 + 3`
+
+The names of variables can be used in expressions, as we've seen.
+For example, this is perfectly valid:
+```
+var x equals 10
+var y equals x + 10
+```
+The word `x` will evaluate to an int expression and be read at runtime for it's value.
+
+

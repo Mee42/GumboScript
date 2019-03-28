@@ -25,14 +25,6 @@ enum class Matchers(vararg val args :Evaluator) {
     },
 
 
-    NEGATIVE(StringEvaluator("-"),TypeEvaluator("int")){
-        override fun process(segments: List<Segment>): Expression {
-            return Expression(Type("int")) { Value(
-                0 - segments[1].expression.get().value as Int
-            ) }
-        }
-    },
-
 
 
     MOD(TypeEvaluator("int"),StringEvaluator("%"),TypeEvaluator("int")){

@@ -11,7 +11,7 @@ Never.
 
 ## 2. Why...?
 
-Because fuck you, that's why
+Because
 
 ## 3. Why should I learn Gumboscript?
 
