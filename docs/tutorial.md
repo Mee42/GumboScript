@@ -194,6 +194,50 @@ while x < 10
 ```
 This uses something called *expressions*, which we'll cover in the next section.
 
+#### Variable scope
+
+This is a relatively simple concept - variables only exist in the scope that they are declared
+
+for example:
+```
+if true
+{
+    var one equals 1
+    if true {
+        //variable one exists and can be used
+        var two equals one
+    }
+    //variable one exists, but variable two is no longer in scope
+    //**the next line is invalid**
+    var three equals two
+}
+```
+You could also say that variables only exist in the block they are declared,
+and also in blocks that are inside that block.
+This means that types of variables can change between scope:
+```
+if true
+{
+    var one equals "string"
+}
+if true
+{
+    var one equals true
+}
+```
+This is perfectly valid.
+
+Make sure you don't do something like this, because it **will not work**
+
+```
+if true
+{
+    var one equals "one"
+}
+print one
+```
+`one` is **not in scope** on the 5th line.
+
 
 ### Expressions
 

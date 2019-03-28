@@ -1,1 +1,2 @@
-java -jar ./build/libs/*jar $@
+
+java -jar $GUMBO_HOME/*jar $@
