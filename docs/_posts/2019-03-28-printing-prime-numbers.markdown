@@ -30,7 +30,7 @@ $ gumbo -g -f prime.gs
 You shouldn't get output, becuase we don't have any print statements.
 Now, lets start!
 
-### Set one - loop through all numbers
+### Step one - loop through all numbers
 
 Loops are pretty simple, there are three main parts:
 - Counter variable, to keep track of time. Normally `i`
