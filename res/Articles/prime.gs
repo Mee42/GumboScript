@@ -1,6 +1,6 @@
 #compiler 0.3.0
 var i equals 2
-var max equals 10
+var max equals 10000
 
 while i < max
 {
