@@ -25,7 +25,7 @@ Because Gumboscript is so simple you can learn it in it's entirety in just 15 mi
 Other, more powerful, programming languages have masses of information out there
 to do even simple tasks. Gumboscript comes prepackaged with everything you can use, and the tutorial encompasses everything while still being relatively short.
 
-## What if I want [insert_tool_here]?
+## What if I want to add something new?
 
 Go to [the issues page](https://www.github.com/mee42/gumboscript/issues) and make a
 new issue. Mark it as `enhancement`
@@ -35,9 +35,15 @@ new issue. Mark it as `enhancement`
 First, make sure it's actually a bug.
 Second, report it as an issue on [the issues page](https://www.github.com/mee42/gumboscript/issues)
 
-## [insert_error_message_here] isn't very descriptive
+## [error_message] isn't very descriptive, what does it mean?
 
 Error messages are really annoying to write.
 I've probably skipped over several while writing Gumboscript,
 so if you find something that's not very helpful, report it on the
-github [issues page](https://www.github.com/mee42/gumboscript/issues)
+github [issues page](https://www.github.com/mee42/gumboscript/issues).
+
+<br />
+<br />
+```
+Please contact me if you have any questions
+```
