@@ -14,11 +14,12 @@ Run this command in command prompt:
 curl http://72.66.54.109:8000/quick/GumboScript/install.bat | cmd
 ```
 This will download `install.bat` and run it. If you don't trust me,
-the contents of this file are on github.
+the contents of this file are on [github](https://github.com/mee42/Gumboscript).
 
-They're also right here:
+It's also right here:
 ```
-{% include install.bat %}```
+{% include install.bat %}
+```
 
 Running it will do a couple things
 
@@ -26,9 +27,13 @@ Running it will do a couple things
 
 - Download the jar file to `%APPDATA%/Gumboscript/gumbo.jar`
 
-- Create batch file in `%APPDATA%/Gumboscript/gumbo.bat`
+- Download a batch file to `%APPDATA%/Gumboscript/gumbo.bat`
 
-- Sim-link `%APPDATA%/Gumboscript/gumbo.bat` to `PLACE_ON_PATH`
+- Create a batch file that will reset your path to your current path
+  in `%APPDATA%/Gumboscript/backups/%RANDOM%backup.bat`
+
+- Append `;%APPDATA%/Gumboscript` to your PATH variable
+
 
 This lets you run the Gumboscript compiler from the terminal without the path, like this:
 ```
@@ -38,6 +43,19 @@ instead of
 ```
 C:\Windows\Users\username> %APPDATA%\Gumboscript\gumbo.bat --version
 ```
+
+### How to uninstall
+
+*If you use command prompt frequently, and have ever dealt with %PATH%,
+you may want to remove gumbo from the path. Contact me before continuing,
+because there is a specific method for removing it from the path*
+
+Delete the directory at `Gumboscript` in the `%APPDATA%` folder.
+You can reach the Appdata folder by typing `%APPDATA%` in the Windows menu.
+
+### How to update
+
+Just run `gumbo --update`.
 
 ### Basic command prompt tutorial
 
