@@ -24,6 +24,7 @@ Running it will do a couple things
 
 - Create batch file in `%APPDATA%/Gumboscript/gumbo.bat`
 
+
 - Sim-link `%APPDATA%/Gumboscript/gumbo.bat` to `PLACE_ON_PATH`
 
 This lets you run the Gumboscript compiler from the terminal without the path, like this:
