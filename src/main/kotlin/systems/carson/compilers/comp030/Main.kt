@@ -10,7 +10,6 @@ import java.io.File
 
 fun main(args: Array<String>) {
     CommandLine.run(Main(),*args)
-//    CommandLine.run(Main(),*"-vcf ./res/newest.gs".split(" ").toTypedArray())
 }
 
 @Command(name = "gumbo",

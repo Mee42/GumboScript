@@ -54,7 +54,7 @@ fun getVariableNames(list :List<Segment>,variables :Map<String,Type>, line :Int 
 
 fun compileExpression(s :String, variables :Map<String,Type>, line :Int = -1):Expression{
     val str = s.trim()
-    val segments = match(getVariableNames(getSegments(str,variables,line),variables))
+    val segments = match(getVariableNames(getSegments(str,variables,line),variables,line))
     Logger.verbose("Compiling expression; str:\"$s\"  segments: $segments")
     when{
         segments.isEmpty() -> error("no expression returned \"$s\" on line $line")
