@@ -14,7 +14,8 @@ fun main(args: Array<String>) {
 }
 
 @Command(name = "gumbo",
-    mixinStandardHelpOptions = true)
+    mixinStandardHelpOptions = true,
+    version = ["0.3.0"])
 class Main :Runnable {
     @Option(names = ["-v","--verbose"],
         description = ["Verbose mode. Useful for debugging"])
