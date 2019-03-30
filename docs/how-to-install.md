@@ -23,16 +23,16 @@ It's also right here:
 
 Running it will do a couple things
 
-- Create directory `%APPDATA%/Gumboscript`
+- Create directory `%APPDATA%\Gumboscript`
 
-- Download the jar file to `%APPDATA%/Gumboscript/gumbo.jar`
+- Download the jar file to `%APPDATA%\Gumboscript\gumbo.jar`
 
-- Download a batch file to `%APPDATA%/Gumboscript/gumbo.bat`
+- Download a batch file to `%APPDATA%\Gumboscript\gumbo.bat`
 
 - Create a batch file that will reset your path to your current path
-  in `%APPDATA%/Gumboscript/backups/%RANDOM%backup.bat`
+  in `%APPDATA%\Gumboscript\backups\%RANDOM%backup.bat`
 
-- Append `;%APPDATA%/Gumboscript` to your PATH variable
+- Append `;%APPDATA%\Gumboscript` to your PATH variable
 
 
 This lets you run the Gumboscript compiler from the terminal without the path, like this:
@@ -87,7 +87,7 @@ C:\Windows\Users\username>notepad Desktop\file.txt
 ```
 This works the exact same
 
-Absolute directories are all based around the `C` drive. They must start with `C:/` and it will be the same regardless of current directory
+Absolute directories are all based around the `C` drive. They must start with `C:\` and it will be the same regardless of current directory
 ```
 C:\Windows\Users\other_user>notepad C:\Windows\Users\username\Desktop\file.txt
 ```
