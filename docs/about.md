@@ -3,16 +3,15 @@ layout: page
 title: About
 permalink: /about/
 ---
+Gumboscript is a compiled language,
+written in Kotlin and run on the jvm.
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Installation guides can be found [on the install page](/install/)
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+To get started, use the [tutorial](/tutorial/) page
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+#### If there are any bugs, please report them on the [github issue page](https://github.com/mee42/gumboscript/issues)
 
-
-[jekyll-organization]: https://github.com/jekyll
+You can also submit feature requests, questions, and comments there,
+or contact me directly at `carson42g(at)gmail(dot)com`
+or on Discord at `AwesomeCarson123#5069`
