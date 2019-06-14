@@ -57,7 +57,7 @@ fun stringify(n :Any):String{
         else -> n.toString()
     }
 }
-
+//TODO make sure this is used in the right places
 fun BigDecimal.toPaddedString():String{
     var str = toPlainString()
     while(str.length > 2 && str[str.lastIndex] == '0') str = str.substring(0,str.length - 1)
