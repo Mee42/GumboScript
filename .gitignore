@@ -1,4 +1,5 @@
-idea/
+.gradle/
+.idea/
 #created by https://www.gitignore.io/api/java,linux,gradle,kotlin,intellij
 # Edit at https://www.gitignore.io/?templates=java,linux,gradle,kotlin,intellij
 
