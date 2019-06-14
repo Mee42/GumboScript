@@ -1,0 +1,53 @@
+# This is an example PKGBUILD file. Use this as a start to creating your own,
+# and remove these comments. For more information, see 'man PKGBUILD'.
+# NOTE: Please fill out the license field for your package! If it is unknown,
+# then please put 'unknown'.
+
+# Maintainer: CarsonGraham <carson42g@gmail.com>
+pkgname=gumboscript
+pkgver=0.0.1
+pkgrel=1
+epoch=
+pkgdesc="A simple programing language"
+arch=('any')
+url="gumbocoin.com/gumboscript"
+license=()
+groups=()
+depends=(java-runtime-common)
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+source=($pkgname-$pkgver.tar.gz::https://github.com/mee42/GumboScript/archive/v$pkgver.tar.gz)
+noextract=()
+
+prepare() {
+	tar xzf $pkgname-$pkgver.tar.gz
+}
+
+build() {
+    pwd
+    ls
+    cd "GumboScript-$pkgver"
+    pwd
+    ls
+	./gradlew shadowJar
+}
+
+package() {
+	cd "Gumboscript-$pkgver"
+	echo "pkgdir:$pkgdir"
+    mkdir "$pkgdir/usr"
+	mkdir "$pkgdir/usr/bin"
+    install "./bin/gumboscript" "$pkgdir/usr/bin/gumboscript"
+    mkdir "$pkgdir/opt"
+	mkdir "$pkgdir/opt/gumboscript"
+	install "./build/libs/.jar" "$pkgdir/opt/gumboscript/gumboscript.jar"
+}
+md5sums=('57ca17dde38a5607429aa947081eddba')
