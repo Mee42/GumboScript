@@ -1,5 +1,11 @@
 package com.gumbocoin.kotlin
 
-fun main() {
+import com.gumbocoin.Namespace
 
+fun main() {
+    print("", generateKotlinNamespace())
+}
+
+fun print(str :String,namespace : Namespace){
+//    println("$str${namespace.name}-\\")
 }

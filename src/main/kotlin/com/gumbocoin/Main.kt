@@ -8,7 +8,7 @@ const val file = "res/prime.gumbo"
 
 
 fun main() {
-    val input = "-v -f $file"
+    val input = "-V -f $file"
     main(input.split(" ").toTypedArray())
 }
 

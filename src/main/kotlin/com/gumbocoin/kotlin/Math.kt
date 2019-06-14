@@ -335,6 +335,7 @@ private val int by startNamespace {
     }//pow
 
     function {
+        type = Type.int()
         name = "add"
         argument {
             name = "a"
@@ -347,6 +348,7 @@ private val int by startNamespace {
         execute<Int,Int,Int> { a,b -> a + b }
     }//add
     function {
+        type = Type.int()
         name = "sub"
         argument {
             name = "a"
@@ -359,6 +361,8 @@ private val int by startNamespace {
         execute<Int,Int,Int> { a,b -> a - b }
     }//sub
     function {
+        type = Type.int()
+
         name = "mult"
         argument {
             name = "a"
@@ -371,6 +375,8 @@ private val int by startNamespace {
         execute<Int,Int,Int> { a,b -> a * b }
     }//mult
     function {
+        type = Type.int()
+
         name = "div"
         argument {
             name = "a"
@@ -383,6 +389,8 @@ private val int by startNamespace {
         execute<Int,Int,Int> { a,b -> a / b }
     }//div
     function {
+        type = Type.int()
+
         name = "mod"
         argument {
             name = "a"
