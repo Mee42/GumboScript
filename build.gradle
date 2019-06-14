@@ -29,6 +29,11 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+task docs(type :JavaExec){
+    group = 'Run'
+    classpath sourceSets.main.runtimeClasspath
+    main = "com.gumbocoin.kotlin.DocsKt"
+}
 
 jar {
     manifest {
