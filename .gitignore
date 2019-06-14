@@ -1,3 +1,4 @@
+distrib/*.pkg.tar.xz
 distrib/pkg
 distrib/src
 distrib/*.tar.gz

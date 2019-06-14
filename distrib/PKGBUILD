@@ -5,7 +5,7 @@
 
 # Maintainer: CarsonGraham <carson42g@gmail.com>
 pkgname=gumboscript
-pkgver=0.0.2
+pkgver=0.0.3
 pkgrel=1
 epoch=
 pkgdesc="A simple programing language"
@@ -43,12 +43,14 @@ build() {
 package() {
 	cd "GumboScript-$pkgver"
 	echo "pkgdir:$pkgdir"
+
     mkdir "$pkgdir/usr"
 	mkdir "$pkgdir/usr/bin"
 	install "./bin/gumboscript" "$pkgdir/usr/bin/gumboscript"
 
     mkdir "$pkgdir/opt"
 	mkdir "$pkgdir/opt/gumboscript"
-	install "./build/libs/*.jar" "$pkgdir/opt/gumboscript/gumboscript.jar"
+	install "./build/libs/gumboscript-all.jar" "$pkgdir/opt/gumboscript/gumboscript.jar"
 }
 md5sums=('3ecaaae9f877c33b8b4de3e1b4307706')
+md5sums=('310cff925fc2c7b8576946055fde15ce')

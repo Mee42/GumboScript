@@ -1,2 +1,2 @@
 #!/bin/bash
-echo HI
+java -jar /opt/gumboscript/gumboscript.jar
