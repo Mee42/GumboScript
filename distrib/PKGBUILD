@@ -5,7 +5,7 @@
 
 # Maintainer: CarsonGraham <carson42g@gmail.com>
 pkgname=gumboscript
-pkgver=0.0.3
+pkgver=0.0.4
 pkgrel=1
 epoch=
 pkgdesc="A simple programing language"
@@ -54,3 +54,4 @@ package() {
 }
 md5sums=('3ecaaae9f877c33b8b4de3e1b4307706')
 md5sums=('310cff925fc2c7b8576946055fde15ce')
+md5sums=('6361b5b736e435906e22d5a6acd98d2d')
