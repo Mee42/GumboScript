@@ -1,0 +1,21 @@
+fun main(){
+    val value = 4
+    val isPrime = isPrime(value)
+    debug
+}
+
+fun isPrime(int value)boolean{
+    if(value == 2){
+        return true
+    }
+    if(value % 2 == 0){
+        return false
+    }
+    var index = 2
+    while(index < value/2){
+        if(value % index == 0){
+            return false
+        }
+    }
+    return true
+}
