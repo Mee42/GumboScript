@@ -4,7 +4,7 @@ import com.xenomachina.argparser.*
 import java.io.File
 
 fun main(args: Array<String>){
-    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter(),"v0.1.0\n").parseInto(::Main) }
+    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter(),"v0.1.1\n").parseInto(::Main) }
     run(Parsed.file.readText(Charsets.UTF_8))
 }
 
