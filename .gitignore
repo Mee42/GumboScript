@@ -1,3 +1,7 @@
+distrib/pkg
+distrib/src
+distrib/*.tar.gz
+
 docs/_site
 docs/.sass-cache
 docs/.jekyll-metadata
