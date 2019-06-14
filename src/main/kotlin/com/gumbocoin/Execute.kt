@@ -38,7 +38,6 @@ fun executeFunction(func :KotlinFunction, arguments: List<Variable>) :ReturnValu
 
 object FunctionDepth{
     var stackDepth = 0
-    const val MAX_STACK = 1000
 }
 
 object VoidType : Value(Type.void(),Unit)
@@ -63,14 +62,13 @@ enum class GErrorType{
     KOTLIN_EXCEPTION_THROWN
 }
 
-const val CRASH_KOTLIN_ON_GUMBO_ERROR = false
 
 class ReturnValue private constructor(
     private val value :Value?,
     private val error :GError?){
     companion object{
         fun error(error :GError): ReturnValue {
-            if(CRASH_KOTLIN_ON_GUMBO_ERROR) {
+            if(Parsed.crashKotlinOnKotlin) {
                 System.err.println("Error:" + error.message + " \n type:" + error.type + " \n at:" + error.stacktrace.fold("") {a,b -> "$a\n\t${b.functionName}" })
                 System.err.println()
                 System.err.flush()
@@ -95,7 +93,7 @@ class ReturnValue private constructor(
 
 fun executeFunction(gFunction: GumboFunction, arguments :List<Variable>, allNamespaces :List<Namespace>) :ReturnValue {
 
-    if(FunctionDepth.stackDepth > FunctionDepth.MAX_STACK){
+    if(FunctionDepth.stackDepth > Parsed.stackDepth){
         return ReturnValue.error(GError("Stack overflow",GErrorType.STACKOVERFLOW,listOf(StackFrame(gFunction.fullName,gFunction.startingLine))))
     }
     val result =try {
@@ -112,7 +110,7 @@ fun executeFunction(gFunction: GumboFunction, arguments :List<Variable>, allName
     }catch(e :Exception){
         thread(start = true){
             Thread.sleep(100)
-            throw e
+            throwException(e)
         }
         return ReturnValue.error(GError(
             message = "Exception:" + e.message,
@@ -147,11 +145,11 @@ fun executeBlock(block :CompiledBlock, variableStack :VariableStack, allNamespac
     for(line in block.lines){
         when(line){
             is CompiledDebugLine -> {
-                println("Debug:")
+                debug("Debug variables:")
                 (localStack + variableStack)
                     .getAllVariables()
                     .forEach {
-                        println("\t" + it.type  + ": "+
+                        debug("\t" + it.type  + ": "+
                                 it.name + (if(it.isFinal) "(final)" else "       ") + " = " +
                                 stringify(it.value.value) + " (" + it.value.value::class.simpleName + ")" )
                     }

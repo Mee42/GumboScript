@@ -1,22 +1,31 @@
 package com.gumbocoin
 
-import java.io.File
 import java.math.BigDecimal
 
-const val file = "res/test.gumbo"
+const val file = "res/prime.gumbo"
 
-object GConstants{
-    const val BIG_DECIMAL_SCALE = 10_000
-}
 
 fun main() {
-    File("./out").deleteRecursively()
-    File("./out").mkdir()
-
-    val text = File(file).readText(Charsets.UTF_8)
-    run(text)
+    val input = "-v -f $file"
+    main(input.split(" ").toTypedArray())
 }
 
+fun throwException(t :Throwable){
+    if(Parsed.stackTrace)
+        throw t
+}
+
+
+fun verbose(s :String){
+    if(Parsed.verbose)
+        System.out.println(s)
+}
+
+
+fun debug(s :String){
+    if(Parsed.debug)
+        System.err.println("Debug: $s")
+}
 
 
 class Line(val content :String, val lineNumber :Int){
@@ -46,7 +55,7 @@ fun run(script :String) {
     val kotlinNamespace = generateKotlinNamespace()
     val allFull = listOf(finalNamespace,kotlinNamespace)
 
-    println("    ====    execution    ====    \n")
+    verbose("    ====    execution    ====    \n")
     execute(finalNamespace,allFull)
 }
 

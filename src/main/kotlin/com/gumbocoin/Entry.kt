@@ -6,19 +6,40 @@ import java.io.File
 
 fun main(args: Array<String>) {
     Parsed.nullable = ArgParser(args).parseInto(::Main)
-    run(Parsed.main.file.readText(Charsets.UTF_8))
+    run(Parsed.file.readText(Charsets.UTF_8))
 }
 
 object Parsed{
-    var nullable :Main? = null
-    val main :Main
-        get() = nullable!!
+    internal var nullable :Main? = null
+    val file :File
+        get() = nullable!!.file
+
+
+    val verbose :Boolean
+        get() = nullable!!.verbose
+    val debug :Boolean
+        get() = nullable!!.debug
+
+    val stackDepth :Int
+        get() = nullable!!.stackDepth
+
+    val stackTrace :Boolean
+        get() = nullable!!.stacktrace
+
+    val bigPrecision :Int
+        get() = nullable!!.bigPrecision
+
+    val crashKotlinOnKotlin :Boolean
+        get() = nullable!!.crashKotlinOnKotlin
 }
 
 class Main(parser :ArgParser){
-    val v by parser.flagging("-v","--verbose", help = "enable verbose mode")
+    val verbose by parser.flagging("-v","--verbose", help = "enable verbose mode during compile-time")
 
-    val d by parser.flagging("-d","--debug",help = "Print debug info during runtime")
+    val debug by parser.flagging("-d","--debug",help = "Print debug info during runtime")
+
+    val stacktrace by parser.flagging("-s","--stacktrace",help = "Print kotlin stacktraces on crash")
+
 
     val file by parser.storing("-f","--file", help = "the file to use") { File(this) }
 
@@ -27,5 +48,8 @@ class Main(parser :ArgParser){
 
     val bigPrecision by parser.storing("--big-precision",help ="The precision to use with the datatype big")
         { this.toInt() }.default(10_000)
+
+    val crashKotlinOnKotlin by parser.flagging("--crash-kotlin-on-kotlin",help = "IDK just try it")
+
 
 }

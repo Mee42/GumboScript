@@ -15,18 +15,18 @@ class ArgumentType private constructor(
 
 
 fun condenseTokenize(list :List<Token>):List<Token>{
-    println("Condensing $list")
+    verbose("Condensing $list")
 
     condenserTest@ for(condenser in condensers){
-        println("Testing condenser $condenser")
+        verbose("Testing condenser $condenser")
         val argsSize = condenser.condenser.args.size
         if(list.size < argsSize){
             continue@condenserTest
         }
-        println("argsSize = $argsSize going to ${list.size - argsSize}")
+        verbose("argsSize = $argsSize going to ${list.size - argsSize}")
         sublist@ for(index in 0 .. list.size - argsSize) {
             val sublist = list.subList(index,index + argsSize)
-            println("Testing sublist $sublist")
+            verbose("Testing sublist $sublist")
             for(subindex in 0 until sublist.size){
                 val token = sublist[subindex]
                 val argumentType = condenser.condenser.args[subindex]

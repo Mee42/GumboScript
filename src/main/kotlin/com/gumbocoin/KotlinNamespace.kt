@@ -7,7 +7,6 @@ import com.gumbocoin.Type.Companion.int
 import com.gumbocoin.Type.Companion.long
 import com.gumbocoin.Type.Companion.string
 import com.gumbocoin.Type.Companion.void
-import sun.misc.GC
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
@@ -87,7 +86,7 @@ private val big by startNamespace {
             name = "b"
             type = big()
         }
-        execute<BigDecimal,BigDecimal,BigDecimal> { a,b -> a.toDouble().pow(b.toDouble()).toBigDecimal().setScale(GConstants.BIG_DECIMAL_SCALE) }
+        execute<BigDecimal,BigDecimal,BigDecimal> { a,b -> a.toDouble().pow(b.toDouble()).toBigDecimal().setScale(Parsed.bigPrecision) }
     }
     function {
         name = "div"
@@ -107,17 +106,17 @@ private val big by startNamespace {
     function {
         name = "ONE"
         type = big()
-        execute3 { Value(big(),BigDecimal(1).setScale(GConstants.BIG_DECIMAL_SCALE)) }
+        execute3 { Value(big(),BigDecimal(1).setScale(Parsed.bigPrecision)) }
     }
     function {
         name = "ZERO"
         type = big()
-        execute3 { Value(big(),BigDecimal(0).setScale(GConstants.BIG_DECIMAL_SCALE)) }
+        execute3 { Value(big(),BigDecimal(0).setScale(Parsed.bigPrecision)) }
     }
     function {
         name = "TEN"
         type = big()
-        execute3 { Value(big(),BigDecimal(10).setScale(GConstants.BIG_DECIMAL_SCALE)) }
+        execute3 { Value(big(),BigDecimal(10).setScale(Parsed.bigPrecision)) }
     }
 
 }
@@ -172,7 +171,7 @@ private val int by startNamespace {
             name = "i"
             type = int()
         }
-        execute<Int,BigDecimal> { BigDecimal.valueOf(it.toLong()).setScale(GConstants.BIG_DECIMAL_SCALE) }
+        execute<Int,BigDecimal> { BigDecimal.valueOf(it.toLong()).setScale(Parsed.bigPrecision) }
     }
     function {
         name = "ZERO"
@@ -278,7 +277,7 @@ private val string by startNamespace {
                 type = string()
             }
             type = big()
-            execute<String,BigDecimal> { BigDecimal(it).setScale(GConstants.BIG_DECIMAL_SCALE) }
+            execute<String,BigDecimal> { BigDecimal(it).setScale(Parsed.bigPrecision) }
         }
         function {
             name = "boolean"

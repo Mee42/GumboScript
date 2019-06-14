@@ -82,7 +82,7 @@ private fun tokenize(e: String,
                      currentNamespace :PartialNamespace,
                      allNamespaces :List<PartialNamespace>) :List<Token>{
 
-    println("tokenizing \"$e\"")
+    verbose("tokenizing \"$e\"")
     val tokens = mutableListOf<Token>()
     var i = 0
     indexLoop@ while(i < e.length){
@@ -192,13 +192,13 @@ private fun tokenize(e: String,
                     i = endIndex0
                     continue@indexLoop
                 }
-                println("i=$i")
+                verbose("i=$i")
                 val s = if(e.substring(i).contains(" ")) e.substring(i).substring(0,e.substring(i).indexOf(" ")) else e.substring(i)
-                println("s=$s")
+                verbose("s=$s")
                 if(s.contains("(")){
                     //it's a function call....must be?
-                    println("Tokens:$tokens")
-                    println("e.substring($i,${e.indexOf(char = '(',startIndex = i)}) = ${e.substring(i,e.indexOf(char = '(',startIndex = i))}")
+                    verbose("Tokens:$tokens")
+                    verbose("e.substring($i,${e.indexOf(char = '(',startIndex = i)}) = ${e.substring(i,e.indexOf(char = '(',startIndex = i))}")
                     val functionName = e.substring(i,e.indexOf(char = '(',startIndex = i))
 
                     val function = getFunctionForName(
@@ -214,7 +214,7 @@ private fun tokenize(e: String,
                     val actualEndIndex = endIndex + (startIndex + 1)//for later
                     val argumentList = notIncludingStart.substring(0,endIndex)
                     val arguments = mutableListOf<String>()
-                    println("ArgumentList:\"$argumentList\"")
+                    verbose("ArgumentList:\"$argumentList\"")
                     run {
                         var start = 0
                         var ii = 0

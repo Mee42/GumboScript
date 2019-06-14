@@ -62,7 +62,7 @@ fun compileNamespace(namespace :PlaintextNamespace):PartialNamespace{
             //get the last line
             val endingLine = findClosingBracket(index,namespace.lines)
                 { "Reached end of namespace ${namespace.name} while looking for end of function $name" }
-            println("Ending line:$endingLine")
+            verbose("Ending line:$endingLine")
             val lines = namespace.lines.subList(index + 1,endingLine)
             functions.add(PlaintextFunction(
                 name = name,
@@ -102,7 +102,7 @@ fun findClosingBracket(startingLine :Int, lines :List<Line>, error :() -> String
     var depth = 0
     loop@ while(endingLine < lines.size){
         var inString = false
-//        println("Testing ${lines[endingLine].content}")
+        verbose("Testing ${lines[endingLine].content}")
         for(char in lines[endingLine].content){
             when {
                 char == '"' -> inString = !inString

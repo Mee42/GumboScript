@@ -64,7 +64,7 @@ private fun compileBlock(block :List<Line>,
                          variableStack :List<CompileVariable>,
                          allNamespaces: List<PartialNamespace>,
                          currentNamespace :PartialNamespace):CompiledBlock{
-//    println("Compiling block:$block")
+    verbose("Compiling block:$block")
     val compiledLines = mutableListOf<CompiledLine>()
 
     val local = mutableListOf<CompileVariable>()
@@ -76,7 +76,7 @@ private fun compileBlock(block :List<Line>,
         val content = line.content
         val number = line.lineNumber
         val split = content.split(RegexConst.WHITESPACE).map { it.trim() }
-        println("Compiling line $number, \"$content\"")
+        verbose("Compiling line $number, \"$content\"")
         val combinedStack = variableStack + local
         if (content == "debug") {
             compiledLines.add(CompiledDebugLine(line))
@@ -192,7 +192,7 @@ private fun compileBlock(block :List<Line>,
             val endIndex = findEnd(notIncludingStart,'(',')',line,true)
             val argumentList = notIncludingStart.substring(0,endIndex)
             val arguments = mutableListOf<String>()
-            println("ArgumentList:\"$argumentList\"")
+            verbose("ArgumentList:\"$argumentList\"")
             run {
                 var start = 0
                 var i = 0
