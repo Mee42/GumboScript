@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar /opt/gumboscript/gumboscript.jar
+java -jar /opt/gumboscript/gumboscript.jar $@
