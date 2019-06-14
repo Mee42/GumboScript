@@ -1,11 +1,10 @@
 package com.gumbocoin
 
-import com.xenomachina.argparser.ArgParser
-import com.xenomachina.argparser.default
+import com.xenomachina.argparser.*
 import java.io.File
 
-fun main(args: Array<String>) {
-    Parsed.nullable = ArgParser(args).parseInto(::Main)
+fun main(args: Array<String>){
+    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter()).parseInto(::Main) }
     run(Parsed.file.readText(Charsets.UTF_8))
 }
 
