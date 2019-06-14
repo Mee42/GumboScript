@@ -37,12 +37,13 @@ class NamespaceBuilder{
 }
 
 
+
 class ArgumentBuilder{
     var name :String? = null
     var type :Type? = null
-    fun build():Argument{
+    fun build(nameProducer :() -> String):Argument{
         return Argument(
-            name = name ?: error("Name not defined"),
+            name = name ?: nameProducer(),
             type = type ?: error("Type not defined")
         )
     }
@@ -56,8 +57,10 @@ class KotlinFunctionBuilder{
 
     private val arguments = mutableListOf<Argument>()
 
+    private var i = 0
+
     fun argument(block :ArgumentBuilder.() -> Unit){
-        arguments.add(ArgumentBuilder().apply(block).build())
+        arguments.add(ArgumentBuilder().apply(block).build { "var${i++}" })
     }
 
     private var executor :((List<Value>) -> ReturnValue)? = null

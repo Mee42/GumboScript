@@ -20,21 +20,21 @@ ORDER OF OPERATIONS
 the type in () are the types used, in that specific order
 most cross-type functions need specific functions to transfer to a common type
 
-multiplication:(int,double,long,big)         *
-division:(int,double,long,big)               /
-mod:(int,double,long,big)                    %
-addition:(int,double,long,big)               +
-subtraction:(int,double,long,big)            -
-not :(!boolean)                              !
-string concatenation: (string)               +
-less then:(int,double,long,big)              <
-greater then:(int,double,long,big)           >
-then then or equal:(int,double,long,big)     <=
-greater then or equal:(int,double,long,big)  >=
-equality:(int,double,long,big)               ==
-inverse equality:(int,double,long,big)       !=
-bitwise AND:(boolean)                        &&
-bitwise OR:(boolean)                         ||
+multiplication:(int,double,long,big)          *
+division:(int,double,long,big)                /
+mod:(int,double,long,big)                     %
+addition:(int,double,long,big)                +
+subtraction:(int,double,long,big)             -
+not :(!boolean)                               !
+string concatenation: (string)                +
+less then:(int,double,long,big)               <
+greater then:(int,double,long,big)            >
+then then or equal:(int,double,long,big)      <=
+greater then or equal:(int,double,long,big)   >=
+equality:(int,double,long,big,string)         ==
+inverse equality:(int,double,long,big,string) !=
+bitwise AND:(boolean)                         &&
+bitwise OR:(boolean)                          ||
 
  */
 
@@ -107,11 +107,13 @@ val condensers = mutableListOf<NamedCondenser>().run {
     this += "DOUBLE_EQUALS" name "==".booleanExpression<Double> { a,b -> a == b }
     this += "LONG_EQUALS" name "==".booleanExpression<BigInteger> { a,b -> a == b }
     this += "BIG_EQUALS" name "==".booleanExpression<BigDecimal> { a,b -> a == b }
+    this += "STRING_EQUALS" name "==".booleanExpression<String> { a,b -> a == b }
 
     this += "INT_NOT_EQUALS" name "!=".booleanExpression<Int> { a,b -> a != b }
     this += "DOUBLE_NOT_EQUALS" name "!=".booleanExpression<Double> { a,b -> a != b }
     this += "LONG_NOT_EQUALS" name "!=".booleanExpression<BigInteger> { a,b -> a != b }
     this += "BIG_NOT_EQUALS" name "!=".booleanExpression<BigDecimal> { a,b -> a != b }
+    this += "STRING_NOT_EQUALS" name "!=".booleanExpression<String> { a,b -> a != b }
 
 
 

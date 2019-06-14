@@ -1,5 +1,7 @@
 package com.gumbocoin
 
+import com.gumbocoin.kotlin.generateKotlinNamespace
+import com.gumbocoin.kotlin.generatePlaintextKotlinNamespace
 import java.math.BigDecimal
 
 const val file = "res/prime.gumbo"
