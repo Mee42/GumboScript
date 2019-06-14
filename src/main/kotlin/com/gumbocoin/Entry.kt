@@ -4,7 +4,7 @@ import com.xenomachina.argparser.*
 import java.io.File
 
 fun main(args: Array<String>){
-    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter()).parseInto(::Main) }
+    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter(),"v0.0\n").parseInto(::Main) }
     run(Parsed.file.readText(Charsets.UTF_8))
 }
 
@@ -33,7 +33,8 @@ object Parsed{
 }
 
 class Main(parser :ArgParser){
-    val verbose by parser.flagging("-v","--verbose", help = "enable verbose mode during compile-time")
+
+    val verbose by parser.flagging("-V","--verbose", help = "enable verbose mode during compile-time")
 
     val debug by parser.flagging("-d","--debug",help = "Print debug info during runtime")
 
