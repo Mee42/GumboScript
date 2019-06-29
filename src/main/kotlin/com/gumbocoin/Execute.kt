@@ -11,9 +11,7 @@ fun execute(namespace :Namespace, allNamespaces :List<Namespace>){
 
     val result = executeFunction(main,emptyList(),allNamespaces)
     if(result.hasError()){
-        System.err.println("Error:" + result.getError().message + " \n type:" + result.getError().type + " \n at:" + result.getError().stacktrace.fold("") {a,b -> "$a\n\t${b.functionName}" })
-        System.err.println()
-        System.err.flush()
+        OUT.errorln("Error:" + result.getError().message + " \n type:" + result.getError().type + " \n at:" + result.getError().stacktrace.fold("") {a,b -> "$a\n\t${b.functionName}" })
         error("GError during runtime")
     }
 }

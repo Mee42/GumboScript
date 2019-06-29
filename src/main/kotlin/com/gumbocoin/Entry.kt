@@ -3,9 +3,17 @@ package com.gumbocoin
 import com.xenomachina.argparser.*
 import java.io.File
 
+const val VERSION = "0.1.1"
+
 fun main(args: Array<String>){
-    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter(),"v0.1.1\n").parseInto(::Main) }
+    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter(),"v$VERSION\n").parseInto(::Main) }
     run(Parsed.file.readText(Charsets.UTF_8))
+}
+
+
+fun setArgsExternal(s :String){
+    val args = s.split(" ").toTypedArray()
+    Parsed.nullable = mainBody { ArgParser(args, ArgParser.Mode.GNU,DefaultHelpFormatter(),"v$VERSION\n").parseInto(::Main) }
 }
 
 object Parsed{

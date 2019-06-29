@@ -1,5 +1,6 @@
 package com.gumbocoin.kotlin
 
+import com.gumbocoin.OUT
 import com.gumbocoin.Type
 import com.gumbocoin.Value
 import com.gumbocoin.startNamespace
@@ -22,7 +23,7 @@ val io by startNamespace {
             }
             type = Type.void()
             execute5<String> {
-                print(it)
+                OUT.print(it)
             }
         }
         function {
@@ -33,7 +34,7 @@ val io by startNamespace {
             }
             type = Type.void()
             execute5<String> {
-                println(it)
+                OUT.println(it)
             }
         }
 

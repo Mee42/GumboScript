@@ -3,6 +3,10 @@ package com.gumbocoin
 import com.gumbocoin.kotlin.generateKotlinNamespace
 import com.gumbocoin.kotlin.generatePlaintextKotlinNamespace
 import java.math.BigDecimal
+import java.io.PrintWriter
+import java.io.StringWriter
+
+
 
 const val file = "res/prime.gumbo"
 
@@ -44,6 +48,46 @@ class Line(val content :String, val lineNumber :Int){
 }
 
 
+
+object OUT{
+    var impl :Output = object :Output {
+        override fun print(s: String) {
+            System.out.print(s)
+        }
+
+        override fun println(s: String) {
+            System.out.println(s)
+        }
+
+        override fun error(s: String) {
+            System.err.print(s)
+        }
+
+        override fun errorln(s: String) {
+            System.err.println(s)
+        }
+
+        override fun stacktrace(t: Throwable) {
+            t.printStackTrace()
+        }
+    }
+    fun print(s :String) = impl.print(s)
+    fun println(s :String) = impl.println(s)
+    fun error(s :String) = impl.error(s)
+    fun errorln(s :String) = impl.errorln(s)
+    fun stacktrace(t :Throwable) = impl.stacktrace(t)
+}
+
+interface Output {
+    fun print(s :String)
+    fun println(s :String)
+    fun error(s :String)
+    fun errorln(s :String)
+    fun stacktrace(t :Throwable)
+}
+
+
+
 fun run(script :String) {
     val processed = preprocess(script)
     val gumboNamespace = initialNamespaceParse(processed,"gumbo")
@@ -64,7 +108,7 @@ fun run(script :String) {
 
 fun stringify(n :Any):String{
     return when(n){
-        is BigDecimal -> n.toPlainString()
+        is BigDecimal -> n.toPaddedString()
         else -> n.toString()
     }
 }
